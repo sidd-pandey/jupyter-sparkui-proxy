@@ -149,7 +149,7 @@ class ProxyHandler(WebSocketHandlerMixin, IPythonHandler):
 
         # if (http_obj.uri == "/api/v1/applications"):
         #     print("chaging the uri: ")
-        #     http_obj.uri = "/sparkui/4040/api/v1/applications"
+        #     http_obj.uri = "/uiproxy/4040/api/v1/applications"
         #     print(args[1])
         
         self.proxy_base = ''
@@ -239,9 +239,9 @@ class ProxyHandler(WebSocketHandlerMixin, IPythonHandler):
         if self.proxy_base:
             return url_path_join(self.base_url, self.proxy_base)
         if self.absolute_url:
-            return url_path_join(self.base_url, 'sparkui', 'absolute', str(port))
+            return url_path_join(self.base_url, 'uiproxy', 'absolute', str(port))
         else:
-            return url_path_join(self.base_url, 'sparkui', str(port))
+            return url_path_join(self.base_url, 'uiproxy', str(port))
 
     def get_client_uri(self, protocol, host, port, proxied_path):
         context_path = self._get_context_path(port)
@@ -447,7 +447,7 @@ class LocalProxyHandler(ProxyHandler):
 
 def setup_handlers(web_app):
     web_app.add_handlers('.*', [
-        (url_path_join(web_app.settings['base_url'], r'/sparkui/(\d+)(.*)'),
+        (url_path_join(web_app.settings['base_url'], r'/uiproxy/(\d+)(.*)'),
          LocalProxyHandler, {'absolute_url': False}),
          (url_path_join(web_app.settings['base_url'], r'/api/v1/(.*)'),
          LocalProxyHandler, {'absolute_url': False}),
@@ -457,7 +457,7 @@ def setup_handlers(web_app):
          LocalProxyHandler, {'absolute_url': False}),
          (url_path_join(web_app.settings['base_url'], r'/job(.*)'),
          LocalProxyHandler, {'absolute_url': False}),
-        (url_path_join(web_app.settings['base_url'], r'/sparkui/absolute/(\d+)(.*)'),
+        (url_path_join(web_app.settings['base_url'], r'/uiproxy/absolute/(\d+)(.*)'),
          LocalProxyHandler, {'absolute_url': True})
     ])
 
